@@ -93,17 +93,19 @@ function generatePassword() {
     for (i = 1; i <= pLength; i++) {
       passBuild = passBuild + charDeck.charAt(getRandom(charDeck.length))
     }
-    console.log(passBuild)
     //Verify all requested character types are present
+let checkPass = 0
     //Test if there's a lowercase
     if (lower == true) {
       var testStr = "abcdefghijklmnopqrstuvwxyz"
       for (i = 0; i < pLength; i++) {
         if (testStr.includes(passBuild.charAt(i))) {
-          lower = false
+          checkPass = checkPass + 1
           break
         }
       }
+    } else {
+      checkPass = checkPass + 1
     }
 
     //Test if there's an uppercase
@@ -111,10 +113,12 @@ function generatePassword() {
       var testStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
       for (i = 0; i < pLength; i++) {
         if (testStr.includes(passBuild.charAt(i))) {
-          upper = false
+          checkPass = checkPass + 1
           break
         }
       }
+    } else {
+      checkPass = checkPass + 1
     }
 
     //Test if there's a number
@@ -122,10 +126,12 @@ function generatePassword() {
       var testStr = "1234567890"
       for (i = 0; i < pLength; i++) {
         if (testStr.includes(passBuild.charAt(i))) {
-          nums = false
+          checkPass = checkPass + 1
           break
         }
       }
+    } else {
+      checkPass = checkPass + 1
     }
 
     //Test if there's a special character
@@ -133,12 +139,14 @@ function generatePassword() {
       var testStr = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~890"
       for (i = 0; i < pLength; i++) {
         if (testStr.includes(passBuild.charAt(i))) {
-          specs = false
+          checkPass = checkPass + 1
           break
         }
       }
+    } else {
+      checkPass = checkPass + 1
     }
-    if (lower == false && upper == false && nums == false && specs == false) {
+    if (checkPass == 4) {
       passChecked = true
     }
   }
