@@ -34,24 +34,115 @@ generateBtn.addEventListener("click", writePassword);
 
 //////////////////////////////////////////////////////////////////////
 
-//Function for random numbers recycled from class activity; assume min of 1, so removed it from parameters
+//Function for random numbers recycled from class activity; minimum of 0, maximum of (max-1) for use in charAt(index) later.
 function getRandom(max) {
-  var min = 1
-  max = math.floor(max)
-  return Math.floor(Math.random() * (max - min + 1) + min);
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max + 1));
 }
 
-//Establish modified variables - character string to draw from, password as it's built
-//Prompt user for length (declare var in it)
-//Verify length is between 8 and 128
 
-//Ask user if they want lowercase, add to deck if yes
-//Ask user if they want uppercase, add to deck if yes
-//Ask user if they want numbers, add to deck if yes
-//Ask user if they want special characters, add to deck if yes
-//Verify at least 1 type of characters selected (loop while deck empty?)
+function generatePassword() {
+  //Establish modified variables - string (or deck) of characters to draw from, password as it's built, password length
+  var charDeck = ""
+  var passBuild = ""
+  var pLength = 0
 
-//Generate password with (length) characters randomly drawn from (deck)
-//Verify all requested character types are present?
+  //Prompt user for length
+  while (pLength == 0) {
+    var testLen = prompt("Please specify length for password. \n Note: minimum length is 8 characters, maximum is 128.", "");
+    //Verify length is between 8 and 128
+    if (testLen >= 8 && testLen <= 128) {
+      pLength = testLen;
+    } else {
+      alert("Invalid length. Password length must be between 8 and 128.");
+    }
+  }
 
-//Alert done, write password to page
+  while (charDeck == "") {
+    //Ask user if they want lowercase, add to deck if yes
+    var lower = confirm("Include lowercase characters?")
+    if (lower) {
+      charDeck = charDeck + "abcdefghijklmnopqrstuvwxyz"
+    }
+    //Ask user if they want uppercase, add to deck if yes
+    var upper = confirm("Include uppercase characters?")
+    if (upper) {
+      charDeck = charDeck + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    }
+    //Ask user if they want numbers, add to deck if yes
+    var nums = confirm("Include numbers?")
+    if (nums) {
+      charDeck = charDeck + "1234567890"
+    }
+    //Ask user if they want special characters, add to deck if yes
+    var specs = confirm("Include special characters?")
+    if (specs) {
+      charDeck = charDeck + "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~890"
+    }
+    //Alert user if deck is empty, then loop back through choices
+    if (charDeck == "") {
+      alert("Must use at least one set of characters.")
+    }
+  }
+
+  //set up loop for verification  
+  var passChecked = false
+  while (passChecked == false) {
+    passBuild = ""
+    //Generate password with (length) characters randomly drawn from (deck)
+    for (i = 1; i <= pLength; i++) {
+      passBuild = passBuild + charDeck.charAt(getRandom(charDeck.length))
+    }
+    console.log(passBuild)
+    //Verify all requested character types are present
+    //Test if there's a lowercase
+    if (lower == true) {
+      var testStr = "abcdefghijklmnopqrstuvwxyz"
+      for (i = 0; i < pLength; i++) {
+        if (testStr.includes(passBuild.charAt(i))) {
+          lower = false
+          break
+        }
+      }
+    }
+
+    //Test if there's an uppercase
+    if (upper == true) {
+      var testStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      for (i = 0; i < pLength; i++) {
+        if (testStr.includes(passBuild.charAt(i))) {
+          upper = false
+          break
+        }
+      }
+    }
+
+    //Test if there's a number
+    if (nums == true) {
+      var testStr = "1234567890"
+      for (i = 0; i < pLength; i++) {
+        if (testStr.includes(passBuild.charAt(i))) {
+          nums = false
+          break
+        }
+      }
+    }
+
+    //Test if there's a special character
+    if (specs == true) {
+      var testStr = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~890"
+      for (i = 0; i < pLength; i++) {
+        if (testStr.includes(passBuild.charAt(i))) {
+          specs = false
+          break
+        }
+      }
+    }
+    if (lower == false && upper == false && nums == false && specs == false) {
+      passChecked = true
+    }
+  }
+  //Alert done, write password to page
+  alert("Password generated!")
+  return passBuild
+}
