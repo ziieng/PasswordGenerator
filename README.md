@@ -1,3 +1,5 @@
+(Note: this branch is to archive the original version of this assignment as it was turned in. It got better.)
+
 # PasswordGenerator
 Third homework assignment for uw-sea-fsf-pt-08-2020-u-c, [a basic Javascript program to generate randomized passwords.][1]
 
